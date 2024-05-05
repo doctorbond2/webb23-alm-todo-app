@@ -28,7 +28,6 @@
     - test-action.yml code
     ```yaml
     name: Test Workflow
-
     on:
     push:
         branches:
@@ -64,7 +63,6 @@
         - name: Create .env file
         run: |
             cat << EOF >> ./.env
-            MONGODB_URI=${{ secrets.MONGODB_URI }}
             TEST_MONGODB_URI=${{ secrets.TEST_MONGODB_URI }}
             EOF
             # This command uses the cat utility along with a here document 
@@ -76,5 +74,4 @@
         - name: Run tests
         run: npm test
         # Executes your test script.
-
     ```
