@@ -75,3 +75,65 @@
         run: npm test
         # Executes your test script.
     ```
+
+    - Use local mongodb in github actions
+    ```yaml
+        # Name of the GitHub Actions workflow
+        name: Node.js CI
+
+    # Defines when the workflow should run
+    on:
+    push:
+        branches:
+        - main
+    pull_request:
+        branches:
+        - main
+
+    # Defines the jobs that will be executed
+    jobs:
+    # Job name
+    build:
+        # Specifies the type of machine to run the job on
+        runs-on: ubuntu-latest
+
+        # Define a matrix strategy to test with multiple MongoDB versions
+        strategy:
+        matrix:
+            mongodb-version: ['4.4.14', '5.0.9']
+
+        # Defines the steps to execute in the job
+        steps:
+        # Step to checkout the repository code
+        - name: Checkout repository
+            uses: actions/checkout@v2
+            
+        # Step to start MongoDB using a GitHub Action
+        - name: Start MongoDB
+            uses: MongoCamp/mongodb-github-action@1.0.0
+            with:
+            mongodb-version: ${{ matrix.mongodb-version }}
+            # Starts MongoDB using the specified versions from the matrix
+
+        # Step to set up Node.js environment
+        - name: Install Node.js
+            uses: actions/setup-node@v2
+            with:
+            node-version: 'lts/*' # Use the latest LTS version of Node.js
+
+        # Step to install project dependencies
+        - name: Install dependencies
+            run: npm install
+
+        # Step to create .env file with MongoDB URIs
+        - name: Create .env file
+            run: |
+            cat << EOF >> ./.env
+            TEST_MONGODB_URI=mongodb://localhost:27017/testdatabase
+            EOF
+            # Appends TEST_MONGODB_URI to .env file with local MongoDB URI
+
+        # Step to run tests
+        - name: Run tests
+            run: npm test
+    ```

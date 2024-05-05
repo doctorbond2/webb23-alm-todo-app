@@ -17,6 +17,7 @@ jobs:
     # Specifies the type of machine to run the job on
     runs-on: ubuntu-latest
 
+    # Define a matrix strategy to test with multiple MongoDB versions
     strategy:
       matrix:
         mongodb-version: ['4.4.14', '5.0.9']
