@@ -1,14 +1,14 @@
 name: Test Workflow
 on:
-push:
-  branches:
-  - main
-pull_request:
-  branches:
-  - main
-  # Defines the events that trigger the workflow. 
-  # This workflow will run on pushes to the main branch 
-  # and pull requests targeting the main branch.
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+    # Defines the events that trigger the workflow. 
+    # This workflow will run on pushes to the main branch 
+    # and pull requests targeting the main branch.
 jobs:
   build:
     runs-on: ubuntu-latest
